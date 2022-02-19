@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+        integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <title>Simple countdown</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="text-center">Simple Countdown</h1>
+        <form action="#" id="countdown-form">
+            <div class="form-group">
+                <label for="countdown-input">Enter the value to start the countdown</label>
+                <input class="form-control" type="text" id="countdown-input">
+            </div>
+            <button class="btn btn-primary d-block mx-auto" id="start">START COUNTDOWN</button>
+        </form>
+    </div>
+    <p id="countdown-display" class="text-center" aria-live="polite" style="font-size: 3.5rem;">0</p>
+    <div class="container-fluid">
+        <div class="col-lg-12" style="background-color: #000; color: #fff;">
+            <h2>HTML Code</h2>
+            <pre style="color: #fff;">
+<code>
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+
+    &lt;head&gt;
+        &lt;meta charset=&quot;UTF-8&quot;&gt;
+        &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+        &lt;link rel=&quot;stylesheet&quot;
+        href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css&quot;
+        integrity=&quot;sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn&quot;
+        crossorigin=&quot;anonymous&quot;&gt;
+        &lt;title&gt;Simple countdown&lt;/title&gt;
+        &lt;/head&gt;
+
+        &lt;body&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;h1 class=&quot;text-center&quot;&gt;Simple Countdown&lt;/h1&gt;
+                &lt;form action=&quot;#&quot; id=&quot;countdown-form&quot;&gt;
+                    &lt;div class=&quot;form-group&quot;&gt;
+                        &lt;label for=&quot;countdown-input&quot;&gt;Enter the value to start the countdown&lt;/label&gt;
+                        &lt;input class=&quot;form-control&quot; type=&quot;text&quot; id=&quot;countdown-input&quot;&gt;
+                    &lt;/div&gt;
+                    &lt;button class=&quot;btn btn-primary d-block mx-auto&quot; id=&quot;start&quot;&gt;START COUNTDOWN&lt;/button&gt;
+                &lt;/form&gt;
+            &lt;/div&gt;
+            &lt;p id=&quot;countdown-display&quot; class=&quot;text-center&quot; aria-live=&quot;polite&quot; style=&quot;font-size:
+            3.5rem;&quot;&gt;0&lt;/p&gt;
+            &lt;script src=&quot;https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js&quot;
+            integrity=&quot;sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj&quot;
+            crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;
+            &lt;script src=&quot;https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js&quot;
+            integrity=&quot;sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF&quot;
+            crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;
+            &lt;script src=&quot;script.js&quot;&gt;&lt;/script&gt;
+        &lt;/body&gt;
+&lt;/html&gt;
+</code>
+            </pre>
+        </div>
+        <div class="col-lg-12" style="background-color: #000; color: #fff;">
+            <h2>Javascript Code</h2>
+            <pre style="color: #fff;">
+<code>
+let countDownForm = document.getElementById(&quot;countdown-form&quot;) // Target the countdown form element
+let countDownInput = document.getElementById(&quot;countdown-input&quot;) // Target the countdown text field above
+let countDownDisplay = document.getElementById(&quot;countdown-display&quot;) // Target the countdown display field below the countdown form
+
+countDownForm.addEventListener(&quot;submit&quot;, countDownFormSubmitHandler) // Listen for the submit event for the countDownForm element and call the countDownFormSubmitHandler function
+
+function countDownFormSubmitHandler(event) { // Start the function definition
+    event.preventDefault() // Prevent the default form submit behaviour
+    displayCountDown() // Call the function to display the countdown
+} // End the function definition
+
+async function displayCountDown() { // Start the function definition
+    if (countDownInput.value === &quot;&quot;) { // Check if the value entered is empty. if so, shows an error and return.
+        alert(&quot;Please enter the countdown value.&quot;)
+        return
+    }
+    if (countDownInput.value !== &quot;&quot; &amp;&amp; Math.round(countDownInput.value) &gt; 1) { // Check if the value entered is not empty and is &gt; 1. There is no meaning to start countdown for the value of 1.
+        let countDownValue = countDownInput.value
+        while (countDownValue &gt; -1) { // Run a loop while a countDownValue is &gt; -1
+            countDownDisplay.innerHTML = countDownValue // Display the countdown value
+            countDownValue = await startCountdown(countDownValue) // Call the startCountDown function which finally start the countdown.
+        }
+    } else {
+        alert(&quot;Please enter the numeric value to start the countdown or the value entered must be &gt; 1.&quot;) // Show the error if countdown value is not numeric or is &lt; 1
+    }
+} // End the function definition
+
+function startCountdown(countDownValue) { // Start the function definition
+    return new Promise(async (resolve, reject)=&gt; {// Return a new Promis. Ignore as we have not learned that.
+        await setTimeout(() =&gt; {
+            countDownValue--
+            resolve(countDownValue)
+        }, 1000) // Update the countdown value in decrements
+    })
+} // End the function definition
+</code>
+            </pre>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
+        crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
